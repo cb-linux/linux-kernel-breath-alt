@@ -1,0 +1,12 @@
+Package: linux-image-5.10.54-breath-alt
+Source: linux-5.10.54-breath-alt
+Version: 5.10.54-breath-alt-3
+Architecture: amd64
+Maintainer: lars <lars@andrelauret-lars.home>
+Installed-Size: 302182
+Section: kernel
+Priority: optional
+Homepage: https://www.kernel.org/
+Description: Linux kernel, version 5.10.54-breath-alt
+ This package contains the Linux kernel, modules and corresponding other
+ files, version: 5.10.54-breath-alt.

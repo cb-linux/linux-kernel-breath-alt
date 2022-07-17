@@ -1,0 +1,13 @@
+Package: linux-headers-5.10.54-breath-alt
+Source: linux-5.10.54-breath-alt
+Version: 5.10.54-breath-alt-3
+Architecture: amd64
+Maintainer: lars <lars@andrelauret-lars.home>
+Installed-Size: 50263
+Section: kernel
+Priority: optional
+Homepage: https://www.kernel.org/
+Description: Linux kernel headers for 5.10.54-breath-alt on amd64
+ This package provides kernel header files for 5.10.54-breath-alt on amd64
+ .
+ This is useful for people who need to build external modules
