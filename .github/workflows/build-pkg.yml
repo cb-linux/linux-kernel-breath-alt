@@ -32,7 +32,7 @@ jobs:
         run:  rm -v ../$(linux-image*.deb | grep dbg) ../linux-libc*.deb
       - name: Rename files before release
         run:  mv -v ../linux-headers*.deb ../linux-headers-breath-alt.deb; mv -v ../linux-image*.deb ../linux-image-breath-alt.deb; 
-      - name: Release all packages
+      - name: Release all linux packages
         uses: softprops/action-gh-release@v1
         with:
           tag_name: ${{ steps.tag.outputs.release_tag }}
