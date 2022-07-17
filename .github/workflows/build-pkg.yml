@@ -27,7 +27,7 @@ jobs:
       - name: Install dependencies
         run: sudo apt install libelf-dev
       - name: Building linux-kernel-breath-alt
-        run: cp -v kernel.conf .config; make olddefconfig; make -j$(nproc) bindeb-pkg LOCALVERSION=-breath-alt;  make -j$(nproc) rpmdeb-pkg LOCALVERSION=-breath-alt
+        run: cp -v kernel.conf .config; make olddefconfig; make -j$(nproc) bindeb-pkg LOCALVERSION=-breath-alt;  make -j$(nproc) binrpm-pkg LOCALVERSION=-breath-alt
       - name: Delete non-needed files
         run:  rm -v ../$(linux-image*.deb | grep dbg) ../linux-libc*.deb
       - name: Rename files before release
