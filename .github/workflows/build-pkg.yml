@@ -1,0 +1,49 @@
+name: 📦 Package Delivery System
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    if: "!contains(github.event.head_commit.message, 'skip-ci')"
+    steps:
+      - name: Free up disk space
+        run: curl -s -L https://raw.githubusercontent.com/apache/flink/02d30ace69dc18555a5085eccf70ee884e73a16e/tools/azure-pipelines/free_disk_space.sh | bash
+      - name: Check out repository code
+        uses: actions/checkout@v3
+        with:
+          submodules: true
+          fetch-depth: 2
+      - name: Generate Diff/Changelog
+        run: |
+          echo 'DIFF<<EOF' >> $GITHUB_ENV
+          git diff HEAD^..HEAD >> $GITHUB_ENV
+          echo 'EOF' >> $GITHUB_ENV
+      - name: Generate release tag
+        id: tag
+        run: |
+          echo "::set-output name=release_tag::PackageDeliverySystem$(date +"%Y.%m.%d_%H-%M")"
+      - name: Install dependencies
+        run: sudo apt install libelf-dev
+      - name: Building linux-kernel-breath-alt
+        run: cp -v kernel.conf .config; make olddefconfig; make -j$(nproc) bindeb-pkg LOCALVERSION=-breath-alt
+      - name: Delete non-needed files
+        run:  rm -v ../$(linux-image*.deb | grep dbg) ../linux-libc*.deb
+      - name: Rename files before release
+        run:  mv -v ../linux-headers*.deb ../linux-headers-breath-alt.deb; mv -v ../linux-image*.deb ../linux-image-breath-alt.deb; 
+      - name: Release all packages
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: ${{ steps.tag.outputs.release_tag }}
+          name: 📦 Package Rebuild - ${{ github.event.head_commit.message }}
+          body: |
+            🛈 General Changes since the last release
+            ```
+            ${{ env.DIFF }}
+            ```
+
+            🚚 Package Delivery System - Triggered by ${{ github.sha }} at ${{ github.event.repository.updated_at }}
+          files: |
+            ../*.deb
+            ../*.rpm
