@@ -33,7 +33,7 @@ jobs:
       - name: Make Arch packages
         run: make clean; make -j$(nproc) binrpm-pkg LOCALVERSION=-breath-alt
       - name: Delete non-needed files
-        run:  rm -v ../$(ls linux-image*.deb | grep dbg) ../linux-libc*.deb
+        run:  rm -v ../$(ls ../linux-image*.deb | grep dbg) ../linux-libc*.deb
       - name: Rename files before release
         run:  mv -v ../linux-headers*.deb ../linux-headers-breath-alt.deb; mv -v ../linux-image*.deb ../linux-image-breath-alt.deb; 
       - name: Release all linux packages
