@@ -31,7 +31,7 @@ jobs:
       #- name: Make Debian packages
       #  run: make clean; make -j$(nproc) bindeb-pkg LOCALVERSION=-breath-alt 
       - name: Make Arch packages
-        run: make -j$(nproc) binrpm-pkg LOCALVERSION=-breath-alt; mv ../rpmbuild/RPMS/x86_64/*.rpm ../
+        run: make -j$(nproc) binrpm-pkg LOCALVERSION=-breath-alt; find ../ -type f
       - name: Delete non-needed files
         run:  rm -v $(ls ../linux-image*.deb | grep dbg) ../linux-libc*.deb
       - name: Rename files before release
