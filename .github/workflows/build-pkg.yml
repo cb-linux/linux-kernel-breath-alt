@@ -29,11 +29,11 @@ jobs:
       - name: Building linux-kernel-breath-alt
         run: cp -v kernel.conf .config; make olddefconfig
       - name: Make Kernel package
-        run: make -j$(nproc) binrpm-pkg LOCALVERSION=-breath-alt; find ../ -type f
-      - name: Delete non-needed files
-        run:  rm -v $(ls ../linux-image*.deb | grep dbg) ../linux-libc*.deb
-      - name: Rename files before release
-        run:  mv -v ../linux-headers*.deb ../linux-headers-breath-alt.deb; mv -v ../linux-image*.deb ../linux-image-breath-alt.deb; 
+        run: make -j$(nproc) targz-pkg LOCALVERSION=-breath-alt; 
+      #- name: Delete non-needed files
+      #  run:  rm -v $(ls ../linux-image*.deb | grep dbg) ../linux-libc*.deb
+      #- name: Rename files before release
+      #  run:  mv -v ../linux-headers*.deb ../linux-headers-breath-alt.deb; mv -v ../linux-image*.deb ../linux-image-breath-alt.deb; 
       - name: Release all linux packages
         uses: softprops/action-gh-release@v1
         with:
@@ -47,5 +47,5 @@ jobs:
 
             🚚 Package Delivery System - Triggered by ${{ github.sha }} at ${{ github.event.repository.updated_at }}
           files: |
-            ../*.deb
-            ../*.rpm
+            ../*gz
+            ../*tar
